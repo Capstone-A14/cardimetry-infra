@@ -13,7 +13,7 @@ Kode konfigurasi infratruktur: [docker-compose.yml](./docker/docker-compose.yml)
 ## 1. Jalankan Repo Ini (Infrastruktur)
 
 - Clone repository ini 
-- Download folder docker data
+- Download folder docker data dari link [ini](https://ugm365-my.sharepoint.com/:u:/g/personal/nismara_chandra_365_ugm_ac_id/EXlSV8VeRT1Bssnbhfj65hwBsIrh7Y4dYI1en0tCIz0Z5Q?e=UCoae0)
 - Extract zip yang telah diunduh
 - Pindahkan seluruh isi di dalamnya ke directory ``` ./docker/.data ``` di dalam directory [./docker](./docker)
 - Masuk ke directory ``` /docker ```
