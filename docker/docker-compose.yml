@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  #Server MQTT
+  mosquitto-bt:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto-bt
+    ports:
+      - "1883:1883"
+    volumes:
+      - "./config/mosquitto:/mosquitto/config"
+      - "./.data/mosquitto:/mosquitto/data"
+    networks:
+      - bt-network
+
+  #MQTT Broker
+  #Lokasi: http://localhost:1880
+  node-red-bt:
+    image: nodered/node-red:latest
+    container_name: node-red-bt
+    ports:
+      - "1880:1880"
+    volumes:
+      - "./.data/node-red:/data"
+    networks:
+      - bt-network
+
+  #Nama aplikasi: Chronograf
+  #Visualisasi Data Time Series (Opsional)
+  #Lokasi: http://localhost:8888
+  chronograf-bt:
+    container_name: chronograf-bt
+    image: chronograf:latest
+    ports:
+      - '127.0.0.1:8888:8888'
+    volumes:
+      - "./.data/chronograf:/var/lib/chronograf"
+    environment:
+      - INFLUXDB_URL=http://influxdb-bt:8086
+      - INFLUXDB_USERNAME=${INFLUXDB_USERNAME}
+      - INFLUXDB_PASSWORD=${INFLUXDB_PASSWORD}
+    networks:
+      - bt-network
+
+  #Database time series
+  #Alamat dashboard: http://localhost:8086
+  #Username: user
+  #Password: user_P4ss
+  influxdb-bt:
+    container_name: influxdb-bt
+    image: influxdb:latest
+    ports:
+      - '8086:8086'
+    volumes:
+      - "./.data/influxdb:/var/lib/influxdb2"
+    environment:
+      - INFLUXDB_DB=db0
+      - INFLUXDB_ADMIN_USER=${INFLUXDB_USERNAME}
+      - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_PASSWORD}
+    networks:
+      - bt-network
+
+  #Nama aplikasi: Grafana
+  #Visualisasi Data Time Series (Utama)
+  #Lokasi: http://localhost:3000
+  grafana-bt:
+    container_name: grafana-bt
+    image: grafana/grafana:latest
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./.data/grafana:/var/lib/grafana
+      - ./.data/grafana-provisioning/:/etc/grafana/provisioning
+      - ./.data/grafana.ini:/etc/grafana/grafana.ini:ro
+    environment:
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    networks:
+      - bt-network
+
+
+networks:
+  bt-network:
+    driver: bridge
