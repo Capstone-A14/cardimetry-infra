@@ -16,6 +16,7 @@ Kode konfigurasi infratruktur: [docker-compose.yml](./docker/docker-compose.yml)
 - Download folder docker data
 - Extract zip yang telah diunduh
 - Pindahkan seluruh isi di dalamnya ke directory ``` ./docker/.data ``` di dalam directory [./docker](./docker)
+- Masuk ke directory ``` /docker ```
 - Jalankan seluruh container dengan command ``` docker compose up ``` atau ``` docker compose up -d ``` untuk menjalankan di belakang layar. Perhatikan log yang berjalan dengan command ``` docker container logs --follow ``` untuk mendeteksi bila terjadi error 
 - Buka terminal baru, cek bahwa seluruh container telah berhasil berjalan dengan command ``` docker container list --all ```
 
